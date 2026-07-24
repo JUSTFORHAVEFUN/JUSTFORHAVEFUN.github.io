@@ -1,1 +1,233 @@
-<h1>欢迎来到我的疯癫技术小站</h1>
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUSTFORHAVEFUN · 极简小站</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0d1117;color:#e6edf3;padding:40px 20px;line-height:1.6}
+.container{max-width:720px;margin:0 auto}
+hr{border:0;border-top:1px solid #30363d;margin:28px 0}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+h1{font-size:26px;font-weight:600;letter-spacing:-0.5px}
+h1 small{font-size:14px;font-weight:400;color:#8b949e;margin-left:10px}
+h2{font-size:18px;font-weight:500;margin:24px 0 12px;color:#e6edf3}
+.project-list{list-style:none;padding:0}
+.project-list li{padding:12px 0;border-bottom:1px solid #21262d}
+.project-list li:last-child{border-bottom:0}
+.project-list .name{font-weight:500;display:block}
+.project-list .desc{font-size:14px;color:#8b949e;margin-top:2px}
+.project-list .link{font-size:13px;font-family:ui-monospace,monospace;word-break:break-all}
+.quote{font-size:15px;color:#8b949e;border-left:2px solid #30363d;padding-left:16px;margin:16px 0}
+.quote .author{display:block;font-size:13px;color:#6e7681;margin-top:4px}
+/* 留言墙 */
+.guestbook{margin-top:8px}
+.input-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.input-row input{flex:1;min-width:140px;padding:8px 12px;border:1px solid #30363d;border-radius:4px;background:#0d1117;color:#e6edf3;font-size:14px;outline:none}
+.input-row input:focus{border-color:#58a6ff}
+.input-row button{padding:8px 18px;border:none;border-radius:4px;background:#58a6ff;color:#fff;font-weight:500;cursor:pointer;font-size:14px}
+.input-row button:hover{opacity:.85}
+.msg-item{padding:12px 0;border-bottom:1px solid #21262d}
+.msg-item:last-child{border-bottom:0}
+.msg-item .meta{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:2px}
+.msg-item .name{font-weight:500}
+.msg-item .time{font-size:12px;color:#6e7681}
+.msg-item .content{color:#c9d1d9;font-size:14px}
+.msg-item .actions{display:flex;gap:12px;margin-top:4px;font-size:13px}
+.msg-item .actions button{background:none;border:none;color:#6e7681;cursor:pointer;padding:0;font-size:13px}
+.msg-item .actions button:hover{color:#58a6ff}
+.msg-item .actions .del:hover{color:#f85149}
+.reply-box{margin-left:24px;margin-top:6px;padding-left:12px;border-left:1px solid #30363d}
+.reply-item{font-size:13px;color:#8b949e;padding:4px 0}
+.reply-item .rname{font-weight:500;color:#e6edf3}
+.reply-item .rtime{font-size:11px;color:#6e7681;margin-left:8px}
+.reply-input{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.reply-input input{flex:1;min-width:100px;padding:4px 8px;border:1px solid #30363d;border-radius:4px;background:#0d1117;color:#e6edf3;font-size:13px;outline:none}
+.reply-input input:focus{border-color:#58a6ff}
+.reply-input button{padding:4px 12px;border:none;border-radius:4px;background:#30363d;color:#e6edf3;cursor:pointer;font-size:12px}
+.reply-input button:hover{background:#58a6ff;color:#fff}
+.empty{color:#6e7681;font-size:14px;padding:8px 0}
+.footer{margin-top:40px;padding-top:16px;border-top:1px solid #21262d;text-align:center;font-size:13px;color:#6e7681}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>JUSTFORHAVEFUN <small>· 裸机战士</small></h1>
+
+  <div class="quote">
+    “TMD 其实这个语言本来就是我想给我和 Hangco 的 OS 做的”
+    <span class="author">—— µASM 作者</span>
+  </div>
+
+  <h2>项目</h2>
+  <ul class="project-list">
+    <li>
+      <span class="name">µASM</span>
+      <div class="desc">极简 x86 汇编器，C++/Python/C 三语言实现</div>
+      <div class="link"><a href="https://github.com/JUSTFORHAVEFUN/MicroASM/" target="_blank">github.com/JUSTFORHAVEFUN/MicroASM</a></div>
+    </li>
+    <li>
+      <span class="name">HangcoOS</span>
+      <div class="desc">32位保护模式操作系统，VGA/键盘/IDE 驱动，❤️爱来自Hangco</div>
+      <div class="link"><a href="https://github.com/hang-coffee/hangco-os" target="_blank">github.com/hang-coffee/hangco-os</a></div>
+    </li>
+    <li>
+      <span class="name">ALL TOOLS I'VE EVER WRITTEN</span>
+      <div class="desc">我随便写的，但会不定期维护</div>
+      <div class="link"><a href="https://github.com/JUSTFORHAVEFUN/ALL-TOOLS-I-VE-EVERY-WRITTEN" target="_blank">github.com/JUSTFORHAVEFUN/ALL-TOOLS-I-VE-EVERY-WRITTEN</a></div>
+    </li>
+  </ul>
+
+  <hr>
+
+  <h2>留言墙</h2>
+  <div class="guestbook" id="guestbook">
+    <div class="input-row">
+      <input type="text" id="gbName" placeholder="名字 (可选)" maxlength="20">
+      <input type="text" id="gbContent" placeholder="写点什么..." maxlength="500">
+      <button id="gbSubmit">发布</button>
+    </div>
+    <div id="gbList"></div>
+  </div>
+
+  <div class="footer">❤️ 本站由疯癫驱动 · 留言保存在你的浏览器中</div>
+</div>
+
+<script>
+// -------- 留言系统 (localStorage) --------
+const KEY = 'my_h5_guestbook';
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } }
+function save(msgs) { localStorage.setItem(KEY, JSON.stringify(msgs)); }
+
+function escape(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render() {
+  const list = document.getElementById('gbList');
+  const msgs = load();
+  if (!msgs.length) {
+    list.innerHTML = '<div class="empty">还没有留言，来抢沙发吧</div>';
+    return;
+  }
+  let html = '';
+  msgs.forEach((msg, idx) => {
+    const time = new Date(msg.time).toLocaleString('zh-CN');
+    html += `<div class="msg-item" data-idx="${idx}">
+      <div class="meta">
+        <span class="name">${escape(msg.name || '匿名')}</span>
+        <span class="time">${time}</span>
+      </div>
+      <div class="content">${escape(msg.content)}</div>
+      <div class="actions">
+        <button class="reply-toggle" data-idx="${idx}">回复</button>
+        <button class="del" data-idx="${idx}">删除</button>
+      </div>
+      <div class="reply-box" id="replyBox-${idx}">
+        ${(msg.replies || []).map((r, ri) => `
+          <div class="reply-item">
+            <span class="rname">${escape(r.name || '匿名')}</span>
+            <span class="rtime">${new Date(r.time).toLocaleString('zh-CN')}</span>
+            ${escape(r.content)}
+            <button class="del-reply" data-msgidx="${idx}" data-replyidx="${ri}" style="background:none;border:none;color:#6e7681;cursor:pointer;font-size:11px;margin-left:6px;">✕</button>
+          </div>
+        `).join('')}
+        <div class="reply-input" style="display:none;" id="replyInput-${idx}">
+          <input type="text" placeholder="名字" maxlength="20" class="reply-name">
+          <input type="text" placeholder="回复内容..." maxlength="500" class="reply-content">
+          <button class="reply-submit" data-idx="${idx}">发送</button>
+          <button class="reply-cancel" data-idx="${idx}" style="background:none;border:none;color:#6e7681;cursor:pointer;">取消</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  list.innerHTML = html;
+
+  // 回复按钮展开
+  document.querySelectorAll('.reply-toggle').forEach(btn => {
+    btn.onclick = function() {
+      const idx = parseInt(this.dataset.idx);
+      const box = document.getElementById(`replyInput-${idx}`);
+      if (box) box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+    };
+  });
+
+  // 提交回复
+  document.querySelectorAll('.reply-submit').forEach(btn => {
+    btn.onclick = function() {
+      const idx = parseInt(this.dataset.idx);
+      const box = document.getElementById(`replyBox-${idx}`);
+      const name = box.querySelector('.reply-name').value.trim() || '匿名';
+      const content = box.querySelector('.reply-content').value.trim();
+      if (!content) return alert('回复内容不能为空');
+      const msgs = load();
+      if (!msgs[idx]) return;
+      if (!msgs[idx].replies) msgs[idx].replies = [];
+      msgs[idx].replies.push({ name, content, time: Date.now() });
+      save(msgs);
+      render();
+      // 重新展开回复输入框
+      const newBox = document.getElementById(`replyInput-${idx}`);
+      if (newBox) newBox.style.display = 'flex';
+    };
+  });
+
+  // 取消回复
+  document.querySelectorAll('.reply-cancel').forEach(btn => {
+    btn.onclick = function() {
+      const idx = parseInt(this.dataset.idx);
+      const box = document.getElementById(`replyInput-${idx}`);
+      if (box) box.style.display = 'none';
+    };
+  });
+
+  // 删除留言
+  document.querySelectorAll('.del').forEach(btn => {
+    btn.onclick = function() {
+      const idx = parseInt(this.dataset.idx);
+      if (!confirm('删除这条留言？')) return;
+      const msgs = load();
+      msgs.splice(idx, 1);
+      save(msgs);
+      render();
+    };
+  });
+
+  // 删除回复
+  document.querySelectorAll('.del-reply').forEach(btn => {
+    btn.onclick = function() {
+      const mi = parseInt(this.dataset.msgidx);
+      const ri = parseInt(this.dataset.replyidx);
+      if (!confirm('删除这条回复？')) return;
+      const msgs = load();
+      if (msgs[mi] && msgs[mi].replies) {
+        msgs[mi].replies.splice(ri, 1);
+        save(msgs);
+        render();
+      }
+    };
+  });
+}
+
+document.getElementById('gbSubmit').onclick = function() {
+  const name = document.getElementById('gbName').value.trim() || '匿名';
+  const content = document.getElementById('gbContent').value.trim();
+  if (!content) return alert('写点内容吧');
+  const msgs = load();
+  msgs.unshift({ name, content, time: Date.now(), replies: [] });
+  save(msgs);
+  render();
+  document.getElementById('gbContent').value = '';
+};
+
+document.getElementById('gbContent').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); document.getElementById('gbSubmit').click(); }
+});
+
+render();
+</script>
+</body>
+</html>
