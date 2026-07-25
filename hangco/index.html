@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+    <style>
+        /* ============================================================
+               最扁平 · 最简洁 · 边框最少化
+               原则：
+               0. 无阴影、无渐变、无圆角、无纹理
+               1. 纯白背景 · 纯黑文字 · 灰为辅助
+               2. 系统字体 · 无衬线
+               3. 尽量移除边框，用背景色和间距区分
+               4. 严格对齐 · 矩形几何
+               5. 最小代码 · 最高可读性
+               ============================================================ */
+
+        /* ---------- 重置 ---------- */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #ffffff;
+            color: #222222;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            border-radius: 0 !important;
+        }
+
+        /* ---------- 容器 ---------- */
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            border-radius: 0 !important;
+        }
+
+        /* ---------- 排版 ---------- */
+        h1,
+        h2,
+        h3,
+        h4,
+        p,
+        ul,
+        ol,
+        blockquote,
+        pre,
+        table,
+        form,
+        hr {
+            margin-bottom: 16px;
+            border-radius: 0 !important;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: #000000;
+            margin-bottom: 4px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+            color: #000000;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #000000;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #222222;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #888888;
+            font-weight: 400;
+            margin-bottom: 32px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 16px;
+        }
+
+        .text-muted {
+            color: #888888;
+            font-size: 0.875rem;
+        }
+
+        .text-small {
+            font-size: 0.8125rem;
+        }
+
+        /* ---------- 链接 ---------- */
+        a {
+            color: #000000;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: #cccccc;
+            transition: color 0.1s ease;
+            border-radius: 0 !important;
+        }
+
+        a:hover {
+            color: #000000;
+            text-decoration-color: #000000;
+        }
+
+        /* ---------- 列表 ---------- */
+        ul,
+        ol {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        /* ---------- 分割线 ---------- */
+        hr {
+            border: none;
+            border-top: 1px solid #eeeeee;
+            margin: 32px 0;
+            height: 0;
+            border-radius: 0 !important;
+        }
+
+        /* ---------- 区块（无边框，仅背景） ---------- */
+        .block {
+            background: #f8f8f8;
+            padding: 24px 24px;
+            margin-bottom: 16px;
+            border-radius: 0 !important;
+            /* 无边框 */
+        }
+
+        .block--white {
+            background: #ffffff;
+        }
+
+        .block--dark {
+            background: #222222;
+            color: #ffffff;
+        }
+
+        .block--dark h2,
+        .block--dark h3,
+        .block--dark p {
+            color: #ffffff;
+        }
+
+        .block--dark .text-muted {
+            color: #aaaaaa;
+        }
+
+        /* ---------- 网格（无边框，仅背景） ---------- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+            border-radius: 0 !important;
+        }
+
+        .grid-item {
+            background: #f8f8f8;
+            padding: 20px 20px;
+            border-radius: 0 !important;
+            /* 无边框 */
+        }
+
+        .grid-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #000000;
+        }
+
+        .grid-item p {
+            font-size: 0.875rem;
+            color: #555555;
+            margin-bottom: 0;
+        }
+
+        /* ---------- 按钮（无边框，纯色背景） ---------- */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+            border-radius: 0 !important;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            line-height: 1.5;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none; /* 无边框 */
+            background: #f0f0f0;
+            color: #222222;
+            transition: background 0.1s ease, color 0.1s ease;
+            border-radius: 0 !important;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .btn:hover {
+            background: #e0e0e0;
+        }
+
+        .btn:active {
+            background: #cccccc;
+        }
+
+        .btn--primary {
+            background: #222222;
+            color: #ffffff;
+        }
+
+        .btn--primary:hover {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .btn--primary:active {
+            background: #000000;
+        }
+
+        .btn--outline {
+            background: transparent;
+            color: #222222;
+            /* 保留极细边框以表示轮廓，但极细 */
+            border: 1px solid #dddddd;
+        }
+
+        .btn--outline:hover {
+            background: #f5f5f5;
+            border-color: #bbbbbb;
+        }
+
+        .btn--small {
+            padding: 4px 12px;
+            font-size: 0.75rem;
+        }
+
+        .btn--large {
+            padding: 12px 32px;
+            font-size: 1rem;
+        }
+
+        /* ---------- 输入框（无边框，仅底部细线或背景） ---------- */
+        .form-group {
+            margin-bottom: 16px;
+            border-radius: 0 !important;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #222222;
+        }
+
+        .input {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            padding: 8px 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            line-height: 1.5;
+            color: #222222;
+            background: #f8f8f8;
+            border: none; /* 无边框 */
+            border-bottom: 1px solid #dddddd; /* 仅下划线暗示 */
+            transition: border-color 0.1s ease;
+            border-radius: 0 !important;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input:focus {
+            outline: none;
+            border-bottom-color: #222222;
+            background: #f0f0f0;
+        }
+
+        .input::placeholder {
+            color: #aaaaaa;
+        }
+
+        textarea.input {
+            resize: vertical;
+            min-height: 80px;
+            max-width: 100%;
+            border: 1px solid #dddddd; /* 文本域保留边框以便编辑 */
+            border-radius: 0 !important;
+        }
+
+        select.input {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #f8f8f8;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        /* ---------- 表格（只有表头下边框） ---------- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+            border-radius: 0 !important;
+        }
+
+        th,
+        td {
+            padding: 8px 12px;
+            text-align: left;
+            border: none; /* 移除所有边框 */
+            border-radius: 0 !important;
+        }
+
+        th {
+            font-weight: 600;
+            color: #000000;
+            border-bottom: 2px solid #222222; /* 仅表头下边框 */
+        }
+
+        tr:hover td {
+            background: #f8f8f8;
+        }
+
+        /* ---------- 引用（无边框，仅背景或左padding） ---------- */
+        blockquote {
+            padding: 16px 20px;
+            margin: 16px 0;
+            background: #f8f8f8;
+            color: #333333;
+            font-style: italic;
+            border-radius: 0 !important;
+            /* 无边框 */
+            border-left: 4px solid #222222; /* 保留一点视觉指示 */
+        }
+
+        blockquote p {
+            margin-bottom: 0;
+        }
+
+        blockquote footer {
+            font-style: normal;
+            font-size: 0.875rem;
+            color: #888888;
+            margin-top: 8px;
+        }
+
+        /* ---------- 代码 ---------- */
+        code {
+            font-family: "SF Mono", "Menlo", "Monaco", "Cascadia Code", "Consolas", monospace;
+            font-size: 0.875em;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border: 1px solid #eeeeee; /* 保留极细边框区分 */
+            border-radius: 0 !important;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 16px 20px;
+            overflow-x: auto;
+            border: 1px solid #eeeeee; /* 保留边框 */
+            border-radius: 0 !important;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+        }
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: 48px;
+            padding-top: 16px;
+            border-top: 1px solid #eeeeee;
+            font-size: 0.8125rem;
+            color: #888888;
+            text-align: center;
+            border-radius: 0 !important;
+        }
+
+        .footer a {
+            color: #222222;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: #cccccc;
+        }
+
+        .footer a:hover {
+            text-decoration-color: #222222;
+        }
+
+        /* ---------- 辅助类 ---------- */
+        .text-center {
+            text-align: center;
+        }
+        .text-left {
+            text-align: left;
+        }
+        .text-right {
+            text-align: right;
+        }
+
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mt-16 {
+            margin-top: 16px;
+        }
+        .mt-24 {
+            margin-top: 24px;
+        }
+        .mt-32 {
+            margin-top: 32px;
+        }
+
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .mb-16 {
+            margin-bottom: 16px;
+        }
+        .mb-24 {
+            margin-bottom: 24px;
+        }
+
+        .flex {
+            display: flex;
+        }
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .gap-16 {
+            gap: 16px;
+        }
+        .items-center {
+            align-items: center;
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .block {
+                padding: 16px 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* ---------- 强制扁平 ---------- */
+        * {
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            background-image: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+        }
+
+        /* 图片保留边框用于内容 */
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #eeeeee;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        /* 特殊：按钮、输入框等已经处理 */
+    </style>
+	<title>Hangco</title>
+	</head>
+	<body>
+		<div class=container>
+			<h1>欢迎！</h1>
+			<p class="subtitle">这是Hangco的页面</p>
+			<div class="block">
+				<h2>我是谁</h2>
+				<p>很显然，通过阅读上方的副标题，你就能知道我是Hangco。我最近对汇编语言等感兴趣。<br>
+				有空时，我会做一些程序之类的。只是因为比较有意思。</p>
+				<h3>为什么我叫做Hangco？</h3>
+				<p>因为我真名叫“李杭口”。“杭口”和Hangco的读音一致。</p>
+				<h3>为什么要写这个网页？</h3>
+				<p>因为Void叫我写。我需要答应他的请求。</p>
+			</div>
+			<p class="subtitle"></p>
+			<div class="block">
+				<h2>我的项目</h2>
+				<p>最近正在弄的操作系统<a href="https://github.com/hang-coffee/hangco-os">Hangco OS</a>，适合x86 32位保护模式。
+				还没写完，请见谅。</p>
+				<p>我还在写一个叫做DOCTOR的架构，具体你可以问Void。DOCTOR具体的架构<del>其实很诡异</del>可以问他。</p>
+				<s>void：你不要过来呀啊啊啊啊啊</s>
+			</div>
+			<p class="subtitle"></p>
+			<div class="block">
+				<h2>如何联系我</h2>
+				<p>我的QQ号：1755059964。</p>
+			</div>
+			<div class="footer">
+				<p>Copyright 2026 Hangco<br>格言：“<i>你真没感觉写物理很爽吗？</i>”</p>
+			</div>
+		</div>
+	</body>
+</html>
+
