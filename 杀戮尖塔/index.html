@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>杀戮尖塔 · Slay the Spire (Web)</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ 顶部状态栏 ============ -->
+  <header id="topbar" class="hidden">
+    <div class="tb-left">
+      <div class="tb-char" id="tb-char"></div>
+      <div class="hp-box" id="tb-hp-box">
+        <div class="hp-bar"><div class="hp-fill" id="tb-hp-fill"></div><span class="hp-text" id="tb-hp-text">80/80</span></div>
+      </div>
+      <div class="tb-gold" id="tb-gold"><i class="ico-gold"></i><span>99</span></div>
+      <div class="tb-potions" id="tb-potions"></div>
+    </div>
+    <div class="tb-mid">
+      <div class="tb-relics" id="tb-relics"></div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-floor" id="tb-floor">第1幕 · 0层</div>
+      <button class="tb-btn" id="btn-deck">牌组</button>
+      <button class="tb-btn" id="btn-map">地图</button>
+      <button class="tb-btn" id="btn-menu">菜单</button>
+    </div>
+  </header>
+
+  <!-- ============ 标题界面 ============ -->
+  <section id="screen-title" class="screen active">
+    <div class="title-bg"></div>
+    <div class="title-wrap">
+      <h1 class="game-title"><span>杀戮</span><em>尖塔</em></h1>
+      <p class="game-sub">SLAY THE SPIRE · 网页复刻版</p>
+      <div class="char-select" id="char-select"></div>
+      <div class="title-actions">
+        <button class="big-btn" id="btn-start">开始新征程</button>
+        <button class="big-btn ghost" id="btn-continue">继续游戏</button>
+        <button class="big-btn ghost" id="btn-challenge">挑战模式</button>
+        <button class="big-btn ghost" id="btn-pvp">局域网对战</button>
+      </div>
+      <div class="seed-row">
+        <label>种子 <input id="seed-input" type="text" placeholder="留空随机" maxlength="18"></label>
+        <label class="chk"><input id="ascension-input" type="number" min="0" max="20" value="0" style="width:52px"> 进化等级</label>
+      </div>
+      <p class="title-tip">提示：鼠标拖动/点击出牌，空格结束回合，E 查看牌组</p>
+    </div>
+  </section>
+
+  <!-- ============ 地图界面 ============ -->
+  <section id="screen-map" class="screen">
+    <div class="map-header">
+      <h2 id="map-act-name">第一幕 · 城市之外</h2>
+      <div class="map-legend">
+        <span><i class="nd nd-monster"></i>敌人</span>
+        <span><i class="nd nd-elite"></i>精英</span>
+        <span><i class="nd nd-event"></i>未知</span>
+        <span><i class="nd nd-rest"></i>营火</span>
+        <span><i class="nd nd-shop"></i>商店</span>
+        <span><i class="nd nd-treasure"></i>宝箱</span>
+        <span><i class="nd nd-boss"></i>首领</span>
+      </div>
+    </div>
+    <div class="map-scroll" id="map-scroll">
+      <div class="map-canvas" id="map-canvas">
+        <svg id="map-lines"></svg>
+        <div id="map-nodes"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 战斗界面 ============ -->
+  <section id="screen-combat" class="screen">
+    <div class="battle-bg" id="battle-bg"></div>
+
+    <div class="battle-field">
+      <div class="enemies" id="enemies"></div>
+    </div>
+
+    <div class="player-zone">
+      <div class="player-side">
+        <div class="creature player-creature" id="player-creature">
+          <div class="cre-body">
+            <div class="cre-art" id="player-art"></div>
+            <div class="cre-block hidden" id="player-block"><i></i><span>0</span></div>
+          </div>
+          <div class="cre-bar">
+            <div class="hp-bar"><div class="hp-fill" id="p-hp-fill"></div><span class="hp-text" id="p-hp-text">80/80</span></div>
+          </div>
+          <div class="powers" id="player-powers"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="combat-hud">
+      <div class="pile pile-draw" id="pile-draw"><span class="pile-n">0</span><span class="pile-l">抽牌</span></div>
+      <div class="energy-orb" id="energy-orb">
+        <div class="orb-inner"><span id="energy-cur" class="orb-num">3</span><small>/</small><span id="energy-max" class="orb-num">3</span></div>
+      </div>
+      <div class="pile pile-discard" id="pile-discard"><span class="pile-n">0</span><span class="pile-l">弃牌</span></div>
+      <div class="pile pile-exhaust" id="pile-exhaust"><span class="pile-n">0</span><span class="pile-l">耗牌</span></div>
+      <button class="end-turn" id="btn-end-turn"><b>结束回合</b><small id="end-turn-sub">回合 1</small></button>
+    </div>
+
+    <div class="hand-area" id="hand-area"></div>
+    <div class="target-arrow hidden" id="target-arrow"><svg><path id="arrow-path"></path></svg><div class="arrow-head" id="arrow-head"></div></div>
+    <div class="combat-toast" id="combat-toast"></div>
+  </section>
+
+  <!-- ============ 通用弹层 ============ -->
+  <div id="overlay" class="overlay hidden">
+    <div class="ov-panel" id="ov-panel">
+      <h3 id="ov-title"></h3>
+      <div id="ov-body" class="ov-body"></div>
+      <div id="ov-actions" class="ov-actions"></div>
+    </div>
+  </div>
+
+  <div id="cardview" class="overlay cardview hidden">
+    <div class="cv-head"><h3 id="cv-title">牌组</h3><div id="cv-sub" class="cv-sub"></div><button class="cv-close" id="cv-close">✕</button></div>
+    <div class="cv-grid" id="cv-grid"></div>
+    <div class="cv-foot" id="cv-foot"></div>
+  </div>
+
+  <div id="tooltip" class="tooltip hidden"></div>
+  <div id="fx-layer" class="fx-layer"></div>
+</div>
+
+<script src="js/util.js"></script>
+<script src="js/powers.js"></script>
+<script src="js/data/cards_ironclad.js"></script>
+<script src="js/data/cards_silent.js"></script>
+<script src="js/data/cards_colorless.js"></script>
+<script src="js/data/cards_expansion.js"></script>
+<script src="js/data/relics.js"></script>
+<script src="js/data/potions.js"></script>
+<script src="js/data/enemies_act1.js"></script>
+<script src="js/data/enemies_act2.js"></script>
+<script src="js/data/enemies_act3.js"></script>
+<script src="js/data/encounters.js"></script>
+<script src="js/data/events.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/map.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui_card.js"></script>
+<script src="js/ui_combat.js"></script>
+<script src="js/ui_rooms.js"></script>
+<script src="js/pvp.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

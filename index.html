@@ -1,89 +1,758 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JUSTFORHAVEFUN · 极简小站</title>
 <style>
+:root{
+  /* —— 精修配色（GitHub Dark 风格微调）—— */
+  --bg:#0d1017;
+  --surface:#161b26;
+  --surface-hover:#1b2130;
+  --border:#242a36;
+  --border-soft:#1c212c;
+  --text:#e6edf3;
+  --text-dim:#9198a1;
+  --text-mute:#5c6370;
+  --accent:#58a6ff;
+  --accent-soft:rgba(88,166,255,.1);
+  --accent-line:rgba(88,166,255,.3);
+  --danger:#f85149;
+  --radius:12px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0d1117;color:#e6edf3;padding:40px 20px;line-height:1.6}
-.container{max-width:720px;margin:0 auto}
-hr{border:0;border-top:1px solid #30363d;margin:28px 0}
-a{color:#58a6ff;text-decoration:none}
-a:hover{text-decoration:underline}
-h1{font-size:26px;font-weight:600;letter-spacing:-0.5px}
-h1 small{font-size:14px;font-weight:400;color:#8b949e;margin-left:10px}
-h2{font-size:18px;font-weight:500;margin:24px 0 12px;color:#e6edf3}
-.project-list{list-style:none;padding:0}
-.project-list li{padding:12px 0;border-bottom:1px solid #21262d}
-.project-list li:last-child{border-bottom:0}
-.project-list .name{font-weight:500;display:block}
-.project-list .desc{font-size:14px;color:#8b949e;margin-top:2px}
-.project-list .link{font-size:13px;font-family:ui-monospace,monospace;word-break:break-all}
-.quote{font-size:15px;color:#8b949e;border-left:2px solid #30363d;padding-left:16px;margin:16px 0}
-.quote .author{display:block;font-size:13px;color:#6e7681;margin-top:4px}
-/* 留言墙 */
-.guestbook{margin-top:8px}
-.input-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.input-row input{flex:1;min-width:140px;padding:8px 12px;border:1px solid #30363d;border-radius:4px;background:#0d1117;color:#e6edf3;font-size:14px;outline:none}
-.input-row input:focus{border-color:#58a6ff}
-.input-row button{padding:8px 18px;border:none;border-radius:4px;background:#58a6ff;color:#fff;font-weight:500;cursor:pointer;font-size:14px}
-.input-row button:hover{opacity:.85}
-.msg-item{padding:12px 0;border-bottom:1px solid #21262d}
-.msg-item:last-child{border-bottom:0}
-.msg-item .meta{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:2px}
-.msg-item .name{font-weight:500}
-.msg-item .time{font-size:12px;color:#6e7681}
-.msg-item .content{color:#c9d1d9;font-size:14px}
-.msg-item .actions{display:flex;gap:12px;margin-top:4px;font-size:13px}
-.msg-item .actions button{background:none;border:none;color:#6e7681;cursor:pointer;padding:0;font-size:13px}
-.msg-item .actions button:hover{color:#58a6ff}
-.msg-item .actions .del:hover{color:#f85149}
-.reply-box{margin-left:24px;margin-top:6px;padding-left:12px;border-left:1px solid #30363d}
-.reply-item{font-size:13px;color:#8b949e;padding:4px 0}
-.reply-item .rname{font-weight:500;color:#e6edf3}
-.reply-item .rtime{font-size:11px;color:#6e7681;margin-left:8px}
-.reply-input{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
-.reply-input input{flex:1;min-width:100px;padding:4px 8px;border:1px solid #30363d;border-radius:4px;background:#0d1117;color:#e6edf3;font-size:13px;outline:none}
-.reply-input input:focus{border-color:#58a6ff}
-.reply-input button{padding:4px 12px;border:none;border-radius:4px;background:#30363d;color:#e6edf3;cursor:pointer;font-size:12px}
-.reply-input button:hover{background:#58a6ff;color:#fff}
-.empty{color:#6e7681;font-size:14px;padding:8px 0}
-.footer{margin-top:40px;padding-top:16px;border-top:1px solid #21262d;text-align:center;font-size:13px;color:#6e7681}
-/* 极简音乐播放器 */
-.music-player{display:flex;align-items:center;gap:12px;justify-content:center;padding:12px 16px;margin-top:20px;background:#161b22;border:1px solid #30363d;border-radius:6px}
-.music-player button{background:none;border:1px solid #30363d;border-radius:4px;color:#e6edf3;font-size:16px;padding:6px 12px;cursor:pointer;transition:all .15s}
-.music-player button:hover{background:#58a6ff;border-color:#58a6ff;color:#fff}
-.music-player .track-name{font-size:13px;color:#8b949e;font-family:ui-monospace,monospace;min-width:60px;text-align:center}
-.music-player input[type="range"]{width:120px;height:4px;-webkit-appearance:none;background:#30363d;border-radius:2px;outline:none}
-.music-player input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:#58a6ff;cursor:pointer}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  padding:60px 20px 80px;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(900px 500px at 15% -10%, rgba(88,166,255,.05), transparent 60%),
+    radial-gradient(700px 400px at 100% 0%, rgba(120,88,255,.04), transparent 60%);
+  background-attachment:fixed;
+}
+
+.container{max-width:640px;margin:0 auto}
+
+/* 焦点环 */
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-radius:4px;
+}
+
+hr{border:0;border-top:1px solid var(--border-soft);margin:48px 0}
+
+a{color:var(--accent);text-decoration:none;transition:color .2s var(--ease)}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* ==================== HERO ==================== */
+.hero{margin-bottom:48px}
+
+.hero .status{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--text-dim);
+  font-family:var(--mono);
+  margin-bottom:16px;
+  padding:4px 12px 4px 10px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:999px;
+}
+.hero .status .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#3fb950;
+  box-shadow:0 0 0 3px rgba(63,185,80,.15);
+  animation:pulse 2.5s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.4}
+}
+
+.hero h1{
+  font-size:clamp(26px, 6vw, 34px);
+  font-weight:700;
+  letter-spacing:-.5px;
+  line-height:1.2;
+  margin-bottom:8px;
+}
+.hero h1 small{
+  font-size:14px;
+  font-weight:400;
+  color:var(--text-mute);
+  letter-spacing:0;
+  margin-left:8px;
+}
+.hero .subtitle{
+  font-size:15px;
+  color:var(--text-dim);
+  max-width:42ch;
+}
+
+/* ==================== 引语 ==================== */
+.quote{
+  margin:32px 0 0;
+  padding:20px 24px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius);
+  font-size:15px;
+  color:var(--text-dim);
+  position:relative;
+}
+.quote::before{
+  content:"";
+  font-family:Georgia,serif;
+  font-size:48px;
+  color:var(--accent-line);
+  position:absolute;
+  top:-8px;left:16px;
+  opacity:.5;
+}
+.quote .author{
+  display:block;
+  font-size:13px;
+  color:var(--text-mute);
+  margin-top:10px;
+  font-family:var(--mono);
+}
+
+/* ==================== 区块标题 ==================== */
+h2{
+  font-size:12px;
+  font-weight:600;
+  margin:40px 0 16px;
+  color:var(--text-mute);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;
+}
+h2::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--border-soft);
+}
+
+/* ==================== 项目列表 ==================== */
+.project-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
+
+.project-list li{
+  padding:18px 20px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  transition:border-color .25s var(--ease), transform .25s var(--ease), background .25s var(--ease);
+  position:relative;
+  overflow:hidden;
+}
+.project-list li::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, var(--accent-line), transparent);
+  opacity:0;
+  transition:opacity .3s;
+}
+.project-list li:hover{
+  border-color:var(--border);
+  background:var(--surface-hover);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+.project-list li:hover::before{opacity:1}
+
+.project-list .name{
+  font-weight:600;
+  font-size:16px;
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  letter-spacing:-.2px;
+}
+.project-list .name::after{
+  content:"→";
+  font-size:14px;
+  color:var(--text-mute);
+  opacity:0;
+  transform:translateX(-4px);
+  transition:all .25s var(--ease);
+}
+.project-list li:hover .name::after{
+  opacity:1;
+  transform:translateX(0);
+  color:var(--accent);
+}
+.project-list .desc{
+  font-size:13.5px;
+  color:var(--text-dim);
+  margin-top:6px;
+}
+.project-list .link{
+  font-size:12.5px;
+  font-family:var(--mono);
+  word-break:break-all;
+  margin-top:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.project-list .link a{color:var(--text-mute)}
+.project-list .link a:hover{color:var(--accent)}
+.project-list .link::before{
+  content:"⌗";
+  color:var(--text-mute);
+  font-size:14px;
+}
+
+/* ==================== 留言墙 ==================== */
+.guestbook{margin-top:4px}
+
+.input-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+  padding:16px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+}
+.input-row input{
+  flex:1;
+  min-width:140px;
+  padding:10px 14px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .2s var(--ease), background .2s;
+}
+.input-row input::placeholder{color:var(--text-mute)}
+.input-row input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+.input-row button{
+  padding:10px 24px;
+  border:none;
+  border-radius:8px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  font-size:14px;
+  font-family:inherit;
+  transition:opacity .2s, transform .1s;
+}
+.input-row button:hover{opacity:.88}
+.input-row button:active{transform:scale(.96)}
+
+/* 留言时间线 */
+.msg-list{position:relative}
+.msg-list::before{
+  content:"";
+  position:absolute;
+  left:19px;
+  top:0;bottom:0;
+  width:1px;
+  background:var(--border-soft);
+}
+
+.msg-item{
+  padding:16px 0 16px 48px;
+  position:relative;
+}
+
+/* 首字母头像 */
+.msg-item .avatar{
+  position:absolute;
+  left:0;
+  top:18px;
+  width:40px;height:40px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;
+  font-size:16px;
+  color:#fff;
+  background:var(--avatar-color, #58a6ff);
+  border:2px solid var(--bg);
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.msg-item .meta{
+  display:flex;
+  gap:10px;
+  align-items:baseline;
+  flex-wrap:wrap;
+  margin-bottom:6px;
+}
+.msg-item .name{font-weight:600;font-size:15px;color:var(--text)}
+.msg-item .time{
+  font-size:12px;
+  color:var(--text-mute);
+  font-family:var(--mono);
+}
+.msg-item .content{
+  color:#c9d1d9;
+  font-size:14.5px;
+  word-break:break-word;
+  white-space:pre-wrap;
+  padding:12px 16px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  border-top-left-radius:4px;
+}
+.msg-item .actions{
+  display:flex;
+  gap:16px;
+  margin-top:8px;
+  font-size:12.5px;
+}
+.msg-item .actions button{
+  background:none;
+  border:none;
+  color:var(--text-mute);
+  cursor:pointer;
+  padding:0;
+  font-size:12.5px;
+  font-family:inherit;
+  transition:color .2s;
+}
+.msg-item .actions button:hover{color:var(--accent)}
+.msg-item .actions .del:hover{color:var(--danger)}
+
+.reply-box{
+  margin-top:12px;
+  padding-left:16px;
+  border-left:2px solid var(--border);
+}
+.reply-item{
+  font-size:13px;
+  color:var(--text-dim);
+  padding:8px 12px;
+  line-height:1.6;
+  background:var(--bg);
+  border:1px solid var(--border-soft);
+  border-radius:8px;
+  margin-bottom:6px;
+}
+.reply-item .rname{font-weight:600;color:var(--text)}
+.reply-item .rtime{
+  font-size:11px;
+  color:var(--text-mute);
+  margin-left:8px;
+  font-family:var(--mono);
+}
+.reply-item .del-reply{
+  background:none;
+  border:none;
+  color:var(--text-mute);
+  cursor:pointer;
+  font-size:11px;
+  margin-left:8px;
+  font-family:inherit;
+  transition:color .2s;
+}
+.reply-item .del-reply:hover{color:var(--danger)}
+
+.reply-input{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+.reply-input input{
+  flex:1;
+  min-width:100px;
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:var(--bg);
+  color:var(--text);
+  font-size:13px;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .2s;
+}
+.reply-input input::placeholder{color:var(--text-mute)}
+.reply-input input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+.reply-input button{
+  padding:8px 16px;
+  border:none;
+  border-radius:7px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  cursor:pointer;
+  font-size:12.5px;
+  font-family:inherit;
+  font-weight:500;
+  transition:background .2s, color .2s;
+}
+.reply-input button:hover{background:var(--accent);color:#fff}
+.reply-input button.reply-cancel{
+  background:transparent;
+  color:var(--text-mute);
+}
+.reply-input button.reply-cancel:hover{
+  background:transparent;
+  color:var(--text);
+}
+
+.empty{
+  color:var(--text-mute);
+  font-size:14px;
+  padding:40px 0;
+  text-align:center;
+  background:var(--surface);
+  border:1px dashed var(--border-soft);
+  border-radius:var(--radius);
+}
+
+/* ==================== 音乐播放器（玻璃质感） ==================== */
+.music-player{
+  margin-top:28px;
+  padding:24px;
+  background:linear-gradient(180deg, rgba(22,27,38,.8) 0%, rgba(18,23,31,.9) 100%);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  position:relative;
+  overflow:hidden;
+}
+.music-player::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, var(--accent-line), transparent);
+}
+
+.mp-top{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+/* 黑胶唱片 */
+.vinyl{
+  width:64px;height:64px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 35% 35%, #3a4048 0%, #1a1e26 40%, #0d1017 70%, #1a1e26 100%),
+    repeating-radial-gradient(circle, transparent 0 3px, rgba(255,255,255,.03) 3px 4px);
+  border:1px solid var(--border);
+  position:relative;
+  flex-shrink:0;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+  animation:spin 8s linear infinite;
+  animation-play-state:paused;
+}
+.vinyl.playing{animation-play-state:running}
+.vinyl::after{
+  content:"";
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 12px var(--accent-line);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.mp-track-wrap{
+  flex:1;
+  position:relative;
+  min-width:0;
+}
+.mp-now-playing{
+  font-size:11px;
+  color:var(--text-mute);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+/* 均衡器动画 */
+.eq{
+  display:inline-flex;
+  gap:2px;
+  height:10px;
+  align-items:flex-end;
+}
+.eq span{
+  width:2px;
+  background:var(--accent);
+  border-radius:1px;
+  animation:eq 1s infinite;
+  animation-play-state:paused;
+}
+.eq.playing span{animation-play-state:running}
+.eq span:nth-child(1){animation-delay:0s}
+.eq span:nth-child(2){animation-delay:.2s;height:100%}
+.eq span:nth-child(3){animation-delay:.4s}
+@keyframes eq{
+  0%,100%{height:3px}
+  50%{height:10px}
+}
+
+select#trackSelect{
+  width:100%;
+  padding:10px 36px 10px 14px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+  font-family:inherit;
+  font-weight:500;
+  outline:none;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  transition:border-color .2s, background .2s;
+}
+select#trackSelect:hover{border-color:var(--accent-line)}
+select#trackSelect:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+select#trackSelect option{
+  background:var(--surface);
+  color:var(--text);
+}
+.mp-track-wrap::after{
+  content:"▾";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--text-mute);
+  pointer-events:none;
+  font-size:12px;
+}
+
+.mp-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.mp-controls button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:50%;
+  color:var(--text);
+  font-size:14px;
+  width:42px;
+  height:42px;
+  cursor:pointer;
+  transition:all .2s var(--ease);
+  flex-shrink:0;
+  padding:0;
+  line-height:1;
+}
+.mp-controls button:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+  transform:scale(1.05);
+}
+.mp-controls button:active{transform:scale(.94)}
+.mp-controls #playBtn{
+  width:52px;
+  height:52px;
+  font-size:18px;
+  background:var(--accent-soft);
+  border-color:var(--accent-line);
+  color:var(--accent);
+}
+.mp-controls #playBtn:hover{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:0 0 24px var(--accent-soft);
+}
+
+.mp-progress{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--border-soft);
+}
+
+input[type="range"]{
+  flex:1;
+  height:4px;
+  -webkit-appearance:none;
+  appearance:none;
+  background:var(--border);
+  border-radius:2px;
+  outline:none;
+  cursor:pointer;
+  transition:height .2s;
+}
+input[type="range"]:hover{height:6px}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--accent);
+  cursor:pointer;
+  transition:transform .2s;
+  box-shadow:0 0 0 4px rgba(88,166,255,.15);
+}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+input[type="range"]::-moz-range-thumb{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--accent);
+  border:none;
+  cursor:pointer;
+}
+
+.time-display{
+  font-size:12px;
+  color:var(--text-mute);
+  font-family:var(--mono);
+  font-variant-numeric:tabular-nums;
+  min-width:86px;
+  text-align:right;
+  flex-shrink:0;
+}
+
+/* ==================== Toast ==================== */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s var(--ease);
+  z-index:1000;
+}
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+.toast.error{border-color:var(--danger)}
+
+/* ==================== Footer ==================== */
+.footer{
+  margin-top:64px;
+  padding-top:24px;
+  border-top:1px solid var(--border-soft);
+  text-align:center;
+  font-size:13px;
+  color:var(--text-mute);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.footer .heart{
+  color:var(--danger);
+  animation:heartbeat 2s infinite;
+}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  10%{transform:scale(1.15)}
+  20%{transform:scale(1)}
+}
+
+/* ==================== 动效降级 ==================== */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+@media (max-width:520px){
+  body{padding:40px 16px 60px}
+  .hero h1{font-size:24px}
+  .vinyl{width:48px;height:48px}
+  .mp-controls button{width:38px;height:38px;font-size:13px}
+  .mp-controls #playBtn{width:46px;height:46px;font-size:15px}
+  .time-display{min-width:72px;font-size:11px}
+  .msg-item{padding-left:40px}
+  .msg-item .avatar{width:32px;height:32px;font-size:13px;top:20px}
+  .msg-list::before{left:15px}
+}
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>JUSTFORHAVEFUN <small>· 裸机战士</small></h1>
 
-  <div class="quote">
-    “TMD 其实这个语言本来就是我想给我和 Hangco 的 OS 做的”
+  <header class="hero">
+    <div class="status">
+      <span class="dot"></span>
+      online · building
+    </div>
+    <h1>JUSTFORHAVEFUN <small>· 请输入文字</small></h1>
+    <p class="subtitle">写点代码，做点东西，偶尔疯癫。</p>
+  </header>
+
+  <blockquote class="quote">
+    "TMD 其实这个语言本来就是我想给我和 Hangco 的 OS 做的"
     <span class="author">—— µASM 作者</span>
-  </div>
+  </blockquote>
 
   <h2>项目</h2>
   <ul class="project-list">
     <li>
       <span class="name">µASM</span>
       <div class="desc">极简 x86 汇编器，C++/Python/C 三语言实现</div>
-      <div class="link"><a href="https://github.com/JUSTFORHAVEFUN/MicroASM/" target="_blank">github.com/JUSTFORHAVEFUN/MicroASM</a></div>
+      <div class="link"><a href="https://github.com/JUSTFORHAVEFUN/MicroASM/" target="_blank" rel="noopener">github.com/JUSTFORHAVEFUN/MicroASM</a></div>
     </li>
     <li>
       <span class="name">HangcoOS</span>
-      <div class="desc">32位保护模式操作系统，VGA/键盘/IDE 驱动。爱来自Hangco(Hang-coffee)</div>
-      <div class="link"><a href="https://github.com/hang-coffee/hangco-os" target="_blank">github.com/hang-coffee/hangco-os</a></div>
+      <div class="desc">32位保护模式操作系统，VGA/键盘/IDE 驱动。爱来自 Hangco (Hang-coffee)</div>
+      <div class="link"><a href="https://github.com/hang-coffee/hangco-os" target="_blank" rel="noopener">github.com/hang-coffee/hangco-os</a></div>
     </li>
     <li>
       <span class="name">ALL TOOLS I'VE EVER WRITTEN</span>
       <div class="desc">我随便写的，但会不定期维护</div>
-      <div class="link"><a href="https://github.com/JUSTFORHAVEFUN/ALL-TOOLS-I-VE-EVERY-WRITTEN" target="_blank">github.com/JUSTFORHAVEFUN/ALL-TOOLS-I-VE-EVERY-WRITTEN</a></div>
+      <div class="link"><a href="https://github.com/JUSTFORHAVEFUN/ALL-TOOLS-I-VE-EVERY-WRITTEN" target="_blank" rel="noopener">github.com/JUSTFORHAVEFUN/ALL-TOOLS-I-VE-EVERY-WRITTEN</a></div>
     </li>
   </ul>
 
@@ -92,133 +761,199 @@ h2{font-size:18px;font-weight:500;margin:24px 0 12px;color:#e6edf3}
   <h2>留言墙</h2>
   <div class="guestbook" id="guestbook">
     <div class="input-row">
-      <input type="text" id="gbName" placeholder="名字 (可选)" maxlength="20">
-      <input type="text" id="gbContent" placeholder="写点什么..." maxlength="500">
-      <button id="gbSubmit">发布</button>
+      <input type="text" id="gbName" placeholder="名字（可选）" maxlength="20" aria-label="你的名字">
+      <input type="text" id="gbContent" placeholder="写点什么..." maxlength="500" aria-label="留言内容">
+      <button id="gbSubmit" aria-label="发布留言">发布</button>
     </div>
-    <div id="gbList"></div>
+    <div id="gbList" class="msg-list"></div>
   </div>
 
-  <!-- ===== 音乐播放器 ===== -->
+  <h2>音乐</h2>
   <div class="music-player">
-    <button id="prevBtn" title="上一首">⏮</button>
-    <button id="playBtn" title="播放/暂停">▶</button>
-    <button id="nextBtn" title="下一首">⏭</button>
-    <span class="track-name" id="trackName">101</span>
-    <input type="range" id="progressBar" min="0" max="100" value="0">
-    <span id="timeDisplay" style="font-size:12px;color:#6e7681;font-family:ui-monospace,monospace;min-width:70px;text-align:center">0:00 / 0:00</span>
+    <div class="mp-top">
+      <div class="vinyl" id="vinyl" aria-hidden="true"></div>
+      <div class="mp-track-wrap">
+        <div class="mp-now-playing">
+          <span class="eq" id="eq"><span></span><span></span><span></span></span>
+          now playing
+        </div>
+        <select id="trackSelect" aria-label="选择歌曲"></select>
+      </div>
+    </div>
+    <div class="mp-controls">
+      <button id="prevBtn" title="上一首" aria-label="上一首">⏮</button>
+      <button id="playBtn" title="播放/暂停" aria-label="播放或暂停">▶</button>
+      <button id="nextBtn" title="下一首" aria-label="下一首">⏭</button>
+    </div>
+    <div class="mp-progress">
+      <input type="range" id="progressBar" min="0" max="100" value="0" aria-label="播放进度">
+      <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+    </div>
   </div>
 
-  <div class="footer">❤️ 本站由疯癫驱动 · 留言保存在你的浏览器中</div>
+  <footer class="footer">
+    <span class="heart">❤</span>
+    本站由疯癫驱动 · 留言保存在你的浏览器中
+  </footer>
 </div>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-// -------- 音乐播放器 --------
+// ==================== Toast ====================
+const toastEl = document.getElementById('toast');
+let toastTimer;
+function toast(msg, type = '') {
+  toastEl.textContent = msg;
+  toastEl.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.className = 'toast ' + type, 2500);
+}
+
+// ==================== 音乐播放器 ====================
 const tracks = [
+  { name: '老叟戏顽童', url: 'music/忘川彼岸.mp3' },
+  { name: '野生狗奶', url: 'music/吹梦到西湖.mp3' },
+  { name: '三绷演义', url: 'music/绷.mp3' },
   { name: '101', url: 'music/101.mp3' },
   { name: '牵丝戏', url: 'music/102.mp3' },
   { name: '出山', url: 'music/出山.mp3' },
-  { name: '琵琶行', url: 'music/琵琶行.mp3' }
+  { name: '弱水三千', url: 'music/弱水三千.mp3' },
+  { name: '琵琶行', url: 'music/琵琶行.mp3' },
+  { name: '水手', url: 'music/水手.mp3' },
+  { name: '东南山苦行', url: 'music/东南山苦行.mp3' },
+  { name: '长安姑娘DJ', url: 'music/长安姑娘.mp3' },
+  { name: '折风度夜', url: 'music/折风渡夜.mp3' },
+  { name: '咏春DJ', url: 'music/咏春.mp3' },
+  { name: '什么阶级说什么话', url: 'music/什么jj说什么话.mp3' },
+  { name: '大海航行靠舵手', url: 'music/大海航行靠舵手.mp3' },
+  { name: '东方红', url: 'music/东方红.mp3' },
+  { name: '社会主义好', url: 'music/社会主义好.mp3' },
+  { name: '东风浩荡进行曲', url: 'music/东风浩荡进行曲.mp3' },
+  { name: '琵琶曲', url: 'music/琵琶曲.mp3' },
+  { name: '永远不能忘', url: 'music/永远不能忘.mp3' },
+  { name: '我们一定要解放台湾', url: 'music/wanwan.mp3' },
+  { name: '空城计', url: 'music/朋友的酒.mp3' },
+  { name: '当那一天真的来临', url: 'music/当那一天真的来临.mp3' }
 ];
+
 let currentTrack = 0;
-let audio = new Audio();
+const audio = new Audio();
 let isPlaying = false;
 
 const playBtn = document.getElementById('playBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
-const trackName = document.getElementById('trackName');
+const trackSelect = document.getElementById('trackSelect');
 const progressBar = document.getElementById('progressBar');
 const timeDisplay = document.getElementById('timeDisplay');
+const vinyl = document.getElementById('vinyl');
+const eq = document.getElementById('eq');
 
-function loadTrack(index) {
-  const track = tracks[index];
-  audio.src = track.url;
+tracks.forEach((t, i) => {
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = t.name;
+  trackSelect.appendChild(opt);
+});
+
+function setPlayingState(playing) {
+  isPlaying = playing;
+  vinyl.classList.toggle('playing', playing);
+  eq.classList.toggle('playing', playing);
+}
+
+function loadTrack(index, autoplay) {
+  currentTrack = index;
+  audio.src = tracks[index].url;
   audio.load();
-  trackName.textContent = track.name;
+  trackSelect.value = index;
   progressBar.value = 0;
   timeDisplay.textContent = '0:00 / 0:00';
-  if (isPlaying) {
-    audio.play().catch(() => {});
-  }
+  if (autoplay) audio.play().catch(() => {});
 }
 
 function togglePlay() {
   if (audio.paused) {
-    audio.play().catch(() => {});
-    playBtn.textContent = '⏸';
-    isPlaying = true;
+    audio.play().catch(() => toast('加载失败，请检查音频文件', 'error'));
   } else {
     audio.pause();
-    playBtn.textContent = '▶';
-    isPlaying = false;
   }
 }
 
-function nextTrack() {
-  currentTrack = (currentTrack + 1) % tracks.length;
-  loadTrack(currentTrack);
-  if (isPlaying) audio.play().catch(() => {});
-}
-
-function prevTrack() {
-  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-  loadTrack(currentTrack);
-  if (isPlaying) audio.play().catch(() => {});
-}
+function nextTrack() { loadTrack((currentTrack + 1) % tracks.length, isPlaying); }
+function prevTrack() { loadTrack((currentTrack - 1 + tracks.length) % tracks.length, isPlaying); }
 
 audio.addEventListener('timeupdate', () => {
   if (audio.duration) {
-    const pct = (audio.currentTime / audio.duration) * 100;
-    progressBar.value = pct;
-    const curM = Math.floor(audio.currentTime / 60);
-    const curS = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
-    const durM = Math.floor(audio.duration / 60);
-    const durS = Math.floor(audio.duration % 60).toString().padStart(2, '0');
-    timeDisplay.textContent = `${curM}:${curS} / ${durM}:${durS}`;
+    progressBar.value = (audio.currentTime / audio.duration) * 100;
+    const fmt = t => `${Math.floor(t/60)}:${Math.floor(t%60).toString().padStart(2,'0')}`;
+    timeDisplay.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
   }
 });
 
-audio.addEventListener('ended', () => {
-  nextTrack();
-});
+audio.addEventListener('ended', () => { setPlayingState(true); nextTrack(); });
+audio.addEventListener('play', () => { playBtn.textContent = '⏸'; setPlayingState(true); });
+audio.addEventListener('pause', () => { playBtn.textContent = '▶'; setPlayingState(false); });
+audio.addEventListener('error', () => toast('无法加载音频文件', 'error'));
 
 progressBar.addEventListener('input', () => {
-  if (audio.duration) {
-    audio.currentTime = (progressBar.value / 100) * audio.duration;
-  }
+  if (audio.duration) audio.currentTime = (progressBar.value / 100) * audio.duration;
 });
 
 playBtn.addEventListener('click', togglePlay);
 nextBtn.addEventListener('click', nextTrack);
 prevBtn.addEventListener('click', prevTrack);
+trackSelect.addEventListener('change', function() { loadTrack(parseInt(this.value), isPlaying); });
 
-// 初始加载
-loadTrack(0);
+// 空格键控制播放/暂停（非输入框聚焦时）
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+    togglePlay();
+  }
+});
 
-// -------- 留言系统 (localStorage) --------
+loadTrack(0, false);
+
+// ==================== 留言系统 (localStorage) ====================
 const KEY = 'my_h5_guestbook';
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } }
 function save(msgs) { localStorage.setItem(KEY, JSON.stringify(msgs)); }
 
 function escape(str) {
   if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// 首字母头像配色（根据名字哈希取色）
+const AVATAR_COLORS = ['#58a6ff','#bc8cff','#39c5cf','#d29922','#f0883e','#3fb950','#ec66b9','#a371f7'];
+function avatarColor(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) % 997;
+  return AVATAR_COLORS[hash % AVATAR_COLORS.length];
+}
+function initial(name) {
+  return (name || '匿').trim().charAt(0).toUpperCase();
 }
 
 function render() {
   const list = document.getElementById('gbList');
   const msgs = load();
   if (!msgs.length) {
-    list.innerHTML = '<div class="empty">还没有留言，来抢沙发吧</div>';
+    list.innerHTML = '<div class="empty">还没有留言 · 来抢沙发吧 🛋️</div>';
     return;
   }
   let html = '';
   msgs.forEach((msg, idx) => {
     const time = new Date(msg.time).toLocaleString('zh-CN');
+    const name = msg.name || '匿名';
     html += `<div class="msg-item" data-idx="${idx}">
+      <div class="avatar" style="--avatar-color:${avatarColor(name)}">${initial(name)}</div>
       <div class="meta">
-        <span class="name">${escape(msg.name || '匿名')}</span>
+        <span class="name">${escape(name)}</span>
         <span class="time">${time}</span>
       </div>
       <div class="content">${escape(msg.content)}</div>
@@ -232,14 +967,14 @@ function render() {
             <span class="rname">${escape(r.name || '匿名')}</span>
             <span class="rtime">${new Date(r.time).toLocaleString('zh-CN')}</span>
             ${escape(r.content)}
-            <button class="del-reply" data-msgidx="${idx}" data-replyidx="${ri}" style="background:none;border:none;color:#6e7681;cursor:pointer;font-size:11px;margin-left:6px;">✕</button>
+            <button class="del-reply" data-msgidx="${idx}" data-replyidx="${ri}" aria-label="删除回复">✕</button>
           </div>
         `).join('')}
         <div class="reply-input" style="display:none;" id="replyInput-${idx}">
-          <input type="text" placeholder="名字" maxlength="20" class="reply-name">
-          <input type="text" placeholder="回复内容..." maxlength="500" class="reply-content">
+          <input type="text" placeholder="名字" maxlength="20" class="reply-name" aria-label="回复者名字">
+          <input type="text" placeholder="回复内容..." maxlength="500" class="reply-content" aria-label="回复内容">
           <button class="reply-submit" data-idx="${idx}">发送</button>
-          <button class="reply-cancel" data-idx="${idx}" style="background:none;border:none;color:#6e7681;cursor:pointer;">取消</button>
+          <button class="reply-cancel" data-idx="${idx}">取消</button>
         </div>
       </div>
     </div>`;
@@ -250,7 +985,11 @@ function render() {
     btn.onclick = function() {
       const idx = parseInt(this.dataset.idx);
       const box = document.getElementById(`replyInput-${idx}`);
-      if (box) box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+      if (box) {
+        const show = box.style.display === 'none';
+        box.style.display = show ? 'flex' : 'none';
+        if (show) box.querySelector('.reply-content').focus();
+      }
     };
   });
 
@@ -260,7 +999,7 @@ function render() {
       const box = document.getElementById(`replyBox-${idx}`);
       const name = box.querySelector('.reply-name').value.trim() || '匿名';
       const content = box.querySelector('.reply-content').value.trim();
-      if (!content) return alert('回复内容不能为空');
+      if (!content) return toast('回复内容不能为空', 'error');
       const msgs = load();
       if (!msgs[idx]) return;
       if (!msgs[idx].replies) msgs[idx].replies = [];
@@ -269,6 +1008,7 @@ function render() {
       render();
       const newBox = document.getElementById(`replyInput-${idx}`);
       if (newBox) newBox.style.display = 'flex';
+      toast('回复成功 ✓');
     };
   });
 
@@ -288,6 +1028,7 @@ function render() {
       msgs.splice(idx, 1);
       save(msgs);
       render();
+      toast('已删除');
     };
   });
 
@@ -309,12 +1050,13 @@ function render() {
 document.getElementById('gbSubmit').onclick = function() {
   const name = document.getElementById('gbName').value.trim() || '匿名';
   const content = document.getElementById('gbContent').value.trim();
-  if (!content) return alert('写点内容吧');
+  if (!content) return toast('写点内容吧', 'error');
   const msgs = load();
   msgs.unshift({ name, content, time: Date.now(), replies: [] });
   save(msgs);
   render();
   document.getElementById('gbContent').value = '';
+  toast('发布成功 ✓');
 };
 
 document.getElementById('gbContent').addEventListener('keydown', function(e) {
